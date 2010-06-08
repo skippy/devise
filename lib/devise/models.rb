@@ -8,6 +8,7 @@ module Devise
     autoload :Rememberable, 'devise/models/rememberable'
     autoload :Registerable, 'devise/models/registerable'
     autoload :Timeoutable, 'devise/models/timeoutable'
+    autoload :TokenAuthenticatable, 'devise/models/token_authenticatable'
     autoload :Trackable, 'devise/models/trackable'
     autoload :Validatable, 'devise/models/validatable'
 

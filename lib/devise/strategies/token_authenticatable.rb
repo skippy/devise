@@ -15,6 +15,12 @@ module Devise
       def authenticate!
         if resource = mapping.to.authenticate_with_token(params[scope] || params)
           success!(resource)
+          unless resource.class.token_authentication_persist
+            Warden::Manager.after_set_user do |record, warden, options|
+              scope = options[:scope]
+              warden.session_serializer.delete(scope, record)
+            end
+          end
         else
           fail!(:invalid_token)
         end

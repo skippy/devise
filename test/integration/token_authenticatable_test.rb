@@ -2,7 +2,7 @@ require 'test/test_helper'
 
 class TokenAuthenticationTest < ActionController::IntegrationTest
 
-  test 'sign in should authenticate with valid authentication token and proper authentication token key' do
+  test 'sign in should authenticate with valid authentication token and proper authentication token key, and persist the user by default' do
     swap Devise, :token_authentication_key => :secret_token do
       sign_in_as_new_user_with_token(:auth_token_key => :secret_token)
 
@@ -10,6 +10,19 @@ class TokenAuthenticationTest < ActionController::IntegrationTest
       assert_template 'users/index'
       assert_contain 'Welcome'
       assert warden.authenticated?(:user)
+      assert warden.session_serializer.fetch(:user)
+    end
+  end
+
+  test 'sign in should authenticate with valid authentication token and proper authentication token key but not persist the user' do
+    swap Devise, :token_authentication_key => :secret_token, :token_authentication_persist => false do
+      sign_in_as_new_user_with_token(:auth_token_key => :secret_token)
+
+      assert_response :success
+      assert_template 'users/index'
+      assert_contain 'Welcome'
+      assert warden.authenticated?(:user)
+      assert_not warden.session_serializer.fetch(:user)
     end
   end
 

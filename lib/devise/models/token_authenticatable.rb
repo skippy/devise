@@ -53,7 +53,7 @@ module Devise
       end
 
       module ClassMethods
-        ::Devise::Models.config(self, :token_authentication_key)
+        ::Devise::Models.config(self, :token_authentication_key, :token_authentication_persist)
 
         # Authenticate a user based on authentication token.
         def authenticate_with_token(attributes)

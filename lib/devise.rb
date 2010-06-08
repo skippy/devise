@@ -155,6 +155,10 @@ module Devise
   mattr_accessor :token_authentication_key
   @@token_authentication_key = :auth_token
 
+  # The user authenticated by the token will be persisted in the session store
+  mattr_accessor :token_authentication_persist
+  @@token_authentication_persist = true
+
   # The realm used in Http Basic Authentication
   mattr_accessor :http_authentication_realm
   @@http_authentication_realm = "Application"
